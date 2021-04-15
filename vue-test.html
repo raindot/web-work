@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <div class="search">
+      <label for="search">商品搜尋：</label>
+      <input v-model="keywords" type="search" name="" id="search" placeholder="請輸入商品名稱">
+    </div>
+    <div class="slider">
+      <transition-group tag="div" :name="transitionName" class="slides-group">
+        <div v-if="show" :key="current" class="slide" :class="slides[current].className">
+          <p>{{slides[current].className}}!</p>
+        </div>
+      </transition-group>
+      <div class="btn btn-prev" aria-label="Previous slide" @click="slide(-1)">
+        &#10094;
+      </div>
+      <div class="btn btn-next" aria-label="Next slide" @click="slide(1)">
+        &#10095
+      </div>
+      <div class="slider-nav">
+        <div class="cursor-pointer slider-nav-dot" v-for="(slide, idx) in slides" :key="idx" @click="current = idx">{{idx}}</div>
+      </div>
+    </div>
+    <div>倒數計時：{{minutes}} : {{seconds}}</div>
+    <div class="content">
+      <menu class="menu">
+        <div class="cursor-pointer" v-for="group in category" @click="filterTerm = group">{{group}}</div>
+      </menu>
+      <div class="products">
+        <div class="product cursor-pointer" v-for="product in filteredList" @click="showModal(product)">{{product.title}}</div>
+      </div>
+    </div>
+    <div v-show="showProduct" @click="showProduct = false" class="modal">
+      <div class="modal-content">
+        <span class="close cursor-pointer" @click="showProduct = false">&times;</span>
+        <p>{{currProduct.title}}</p>
+      </div>
+    </div>
+    <div class="go-top" @click="goTop">Go Top</div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
